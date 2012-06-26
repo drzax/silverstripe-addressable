@@ -56,11 +56,12 @@ class Addressable extends DataObjectDecorator {
 
 	public function extraStatics() {
 		return array('db' => array(
-			'Address'  => 'Varchar(255)',
-			'Suburb'   => 'varchar(64)',
-			'State'    => 'Varchar(64)',
-			'Postcode' => 'Varchar(10)',
-			'Country'  => 'Varchar(2)'
+			'Address1'  => 'Varchar(255)',
+			'Address2'  => 'Varchar(255)',
+			'City'      => 'Varchar(64)',
+			'Region'    => 'Varchar(64)',
+			'Postcode'  => 'Varchar(16)',
+			'Country'   => 'Varchar(2)'
 		));
 	}
 
@@ -92,21 +93,23 @@ class Addressable extends DataObjectDecorator {
 	 * @return array
 	 */
 	protected function getAddressFields() {
-		$fields = array(
-			new HeaderField('AddressHeader', _t('Addressable.ADDRESSHEADER', 'Address')),
-			new TextField('Address', _t('Addressable.ADDRESS', 'Address')),
-			new TextField('Suburb', _t('Addressable.SUBURB', 'Suburb')));
 
-		$label = _t('Addressable.STATE', 'State');
+		$fields = array(
+			new TextField('Address1', _t('Addressable.ADDRESS1', 'Address Line 1')),
+			new TextField('Address2', _t('Addressable.ADDRESS2', 'Address Line 2')),
+			new TextField('City', _t('Addressable.CITY', 'Town/City'))
+		);
+	
+		$label = _t('Addressable.STATE', 'County/State');
 		if (is_array($this->allowedStates)) {
-			$fields[] = new DropdownField('State', $label, $this->allowedStates);
+			$fields[] = new DropdownField('Region', $label, $this->allowedStates);
 		} elseif (!is_string($this->allowedStates)) {
-			$fields[] = new TextField('State', $label);
+			$fields[] = new TextField('Region', $label);
 		}
 
-		$postcode = new RegexTextField('Postcode', _t('Addressable.POSTCODE', 'Postcode'));
-		$postcode->setRegex($this->postcodeRegex);
-		$fields[] = $postcode;
+		$fields[] = new TextField(
+			'Postcode', _t('Addressable.POSTCODE', 'Postcode')
+		);
 
 		$label = _t('Addressable.COUNTRY', 'Country');
 		if (is_array($this->allowedCountries)) {
@@ -122,13 +125,12 @@ class Addressable extends DataObjectDecorator {
 	 * @return bool
 	 */
 	public function hasAddress() {
+
 		return (
-			$this->owner->Address
-			&& $this->owner->Suburb
-			&& $this->owner->State
-			&& $this->owner->Postcode
+			$this->owner->Address1
 			&& $this->owner->Country
 		);
+
 	}
 
 	/**
@@ -137,12 +139,41 @@ class Addressable extends DataObjectDecorator {
 	 * @return string
 	 */
 	public function getFullAddress() {
-		return sprintf('%s, %s, %s %d, %s',
-			$this->owner->Address,
-			$this->owner->Suburb,
-			$this->owner->State,
-			$this->owner->Postcode,
-			$this->getCountryName());
+		
+		$output = array();
+		if( $this->owner->Address1 ) {
+			$output []= $this->owner->Address1;
+		}
+		if( $this->owner->Address2 ) {
+			$output []= $this->owner->Address2;
+		}
+		if( $this->owner->City ) {
+			$output []= $this->owner->City;
+		}
+		if( $this->owner->Region ) {
+			$output []= $this->owner->Region;
+		}
+		if( $this->owner->Postcode ) {
+			$output []= $this->owner->Postcode;
+		}
+		if( $this->owner->Country ) {
+			$output []= $this->getCountryName();
+		}
+		return implode(', ', $output);
+
+	}
+
+	public function Address() {
+		return $this->getLocalisedFullAddressHTML();
+	}
+
+	/**
+	 * Returns the full address in a simple HTML template.
+	 *
+	 * @return string
+	 */
+	public function getLocalisedFullAddressHTML() {
+		return $this->owner->renderWith(array('Address_'.$this->owner->Country,'Address'));
 	}
 
 	/**
@@ -186,7 +217,8 @@ class Addressable extends DataObjectDecorator {
 	 * @return bool
 	 */
 	public function isAddressChanged($level = 1) {
-		$fields  = array('Address', 'Suburb', 'State', 'Postcode', 'Country');
+
+		$fields  = array('Address1','Address2','City','Region','Postcode','Country');
 		$changed = $this->owner->getChangedFields(false, $level);
 
 		foreach ($fields as $field) {
