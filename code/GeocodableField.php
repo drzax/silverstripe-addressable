@@ -46,10 +46,9 @@ class GeocodableField extends FormField {
 		$this->LatField = new NumericField("{$name}[Lat]", 'Latitude');
 		$this->LngField = new NumericField("{$name}[Lng]", 'Longitude');
 		$this->IsManuallySetField = new CheckboxField("{$name}[IsManuallySet]", 'Manually set location' );
-
 	}
 
-	function Field() {
+	function Field($properties = array()) {
 
 		Requirements::javascript("https://www.google.com/jsapi");
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-livequery/jquery.livequery.js');
@@ -96,7 +95,7 @@ class GeocodableField extends FormField {
 	 * @param DataObject $record
 	 * @return bool
 	 */
-	function saveInto(DataObject $record) {
+	function saveInto(DataObjectInterface $record) {
 
 		$name = $this->name;
 		$oldval = $record->$name;
