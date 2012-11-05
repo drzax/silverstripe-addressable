@@ -80,7 +80,7 @@
 					});
 
 
-					jQuery(".tabstrip").click(function() {
+					jQuery(".cms-content-header-tabs").click(function() {
 						google.maps.event.trigger(map, 'resize');
 						map.setZoom( map.getZoom() );
 						map.setCenter( marker.getPosition() );

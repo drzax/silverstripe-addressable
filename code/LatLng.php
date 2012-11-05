@@ -160,7 +160,7 @@ class LatLng extends DBField implements CompositeDBField {
 	 * 
 	 * @return boolean
 	 */
-	function hasValue(){
+	function hasValue($field, $arguments = null, $cache = true){
 		return !!$this->Lat && !!$this->Lng;
 	}
 

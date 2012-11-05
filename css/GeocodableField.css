@@ -5,65 +5,66 @@
 	http://ss.site/addressable/css/GeocodableField.css?m=1326149098
 */
 
-.right form .geocodable label {
+.geocodable label {
 	font-weight: bold;
 	margin-top: 4px;
 }
-.right form .geocodable .middleColumn {
+.geocodable .middleColumn {
 	background: none;
 	padding: 0;
 }
-.right form .geocodable .middleColumn label {
+.geocodable .middleColumn label {
 	font-weight: normal;
 }
-.right form .GeocodableField {
+.GeocodableField {
 	background: none;
 }
-.right form .fieldgroupFieldGeocodableIsManuallySet {
+.fieldgroupFieldGeocodableIsManuallySet {
 	position: relative;
 	top: 4px;
 }
-.right form .fieldgroupFieldGeocodableIsManuallySet input {
+.fieldgroupFieldGeocodableIsManuallySet input {
 	margin-right: 4px;
 	position: relative;
 	top: -1px;
 }
-.right form .fieldgroupFieldGeocodableLat,
-.right form .fieldgroupFieldGeocodableLng {
+.fieldgroupFieldGeocodableLat,
+.fieldgroupFieldGeocodableLng {
 	
 }
-.right form .fieldgroupFieldGeocodableLat label,
-.right form .fieldgroupFieldGeocodableLng label {
+.fieldgroupFieldGeocodableLat label,
+.fieldgroupFieldGeocodableLng label {
 	display: block;
 	margin-bottom: 4px;
 }
-.right form .fieldgroupFieldGeocodableLat {
+.fieldgroupFieldGeocodableLat {
 	position: absolute;
 	top: 5px;
 	left: 10px;
 }
-.right form .fieldgroupFieldGeocodableLng {
+.fieldgroupFieldGeocodableLng {
 	position: absolute;
 	top: 50px;
 	left: 10px;
 }
-.right form .fieldgroupFieldGeocodableMap {
-	background: #F6F6F6;
+.fieldgroupFieldGeocodableMap {
+	border: 1px solid #B3B3B3;
 }
-.right form .fieldgroupFieldGeocodableIsManuallySetOptions {
+.fieldgroupFieldGeocodableIsManuallySetOptions {
 	background: #F0F0F0;
 	padding-left: 160px;
 	position: relative;
 	margin: 15px 0;
 	opacity: 0.9;
 }
-.right form .GeocodableFieldInactive .fieldgroupFieldGeocodableLat input,
-.right form .GeocodableFieldInactive .fieldgroupFieldGeocodableLng input {
+.GeocodableFieldInactive .fieldgroupFieldGeocodableLat input,
+.GeocodableFieldInactive .fieldgroupFieldGeocodableLng input {
 	border-color: #DDD;
 	color: #BBB;
 }
-.right form .fieldgroupFieldGeocodableIsManuallySetHelp p {
+.fieldgroupFieldGeocodableIsManuallySetHelp p {
 	color: #777;
 	font-size: 11px;
 	width: 496px;
+	margin-top: 3px;
 }
