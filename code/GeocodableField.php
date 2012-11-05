@@ -57,22 +57,20 @@ class GeocodableField extends FormField {
 		Requirements::css("addressable/css/GeocodableField.css");
 
 		$shouldUseStartLatLng = !($this->value->Lat || $this->value->Lng);
-
-		return "<div class=\"field fieldgroup GeocodableField\">" .
-					"<div style=\"display: none\" class=\"GeocodableFieldOptions\">" . 
-						'<span class="GeocodableFieldOptionsDefaultLat">' . $this->startLat . '</span>' . 
-						'<span class="GeocodableFieldOptionsDefaultLon">' . $this->startLong . '</span>' . 
-						'<span class="GeocodableFieldOptionsShouldUseStartLatLng">' . ($shouldUseStartLatLng ? '1' : '') . '</span>' . 
-						'<span class="GeocodableFieldOptionsZoom">' . $this->zoom . '</span>' . 
-					"</div>" .
-					"<div class=\"fieldgroupField fieldgroupFieldGeocodableIsManuallySet\">" . $this->IsManuallySetField->SmallFieldHolder() . "</div>" . 
-					"<div class=\"fieldgroupField fieldgroupFieldGeocodableIsManuallySetHelp\"><p>"._t('GeocodableField.MANUALLYSETHELP', 'By ticking this box, you can update the location by dragging and dropping the marker on the map. While this box is ticked, the location will not update automatically when the address changes.')."</p></div>" . 
-					"<div class=\"fieldgroupFieldGeocodableIsManuallySetOptions\" style=\"width: $this->mapWidth;\">".
-					"<div class=\"fieldgroupField fieldgroupFieldGeocodableLat\">" . $this->LatField->SmallFieldHolder() . "</div>" . 
-					"<div class=\"fieldgroupField fieldgroupFieldGeocodableLng\">" . $this->LngField->SmallFieldHolder() . "</div>" . 
-					"<div class=\"fieldgroupFieldGeocodableMap\" id=\"GeocodableMap_{$this->name}\" style=\"width: $this->mapWidth; height: $this->mapHeight;\"></div>" .
-					"</div>" .
-				"</div>";
+		
+		return $this->customise(array(
+			'startLat' => $this->startLat,
+			'startLong' => $this->startLong,
+			'shouldUseStart' => ($shouldUseStartLatLng ? '1' : ''),
+			'zoom' => $this->zoom,
+			'fieldIsManuallySet' => $this->IsManuallySetField->SmallFieldHolder(),
+			'fieldLat' => $this->LatField->SmallFieldHolder(),
+			'fieldLng' => $this->LngField->SmallFieldHolder(),
+			'name' => $this->name,
+			'mapWidth' => $this->mapWidth,
+			'mapHeight' => $this->mapHeight,
+			'manualHelp' => _t('GeocodableField.MANUALLYSETHELP', 'By ticking this box, you can update the location by dragging and dropping the marker on the map. While this box is ticked, the location will not update automatically when the address changes.')
+		))->renderWith($this->getTemplates());
 	}
 
 	function setValue($val) {
